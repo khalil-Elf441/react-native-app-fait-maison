@@ -14,8 +14,12 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import Menu from '../screens/Menu';
+import TabTwoScreen from '../screens/DispoScreen';
+import TabThreeScreen from '../screens/CommandesScreen';
+import TabFourScreen from '../screens/NotifsScreen';
+import TabFiveScreen from '../screens/ProfilScreen';
+import LoginScreen from '../screens/LoginScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 
@@ -38,6 +42,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="Login" component={loginfRegister} options={{ headerShown: false }} />
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
@@ -45,6 +50,22 @@ function RootNavigator() {
       </Stack.Group>
     </Stack.Navigator>
   );
+}
+
+
+function loginfRegister(){
+  const colorScheme = useColorScheme();
+
+  return(
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ title: 'Login' }}
+        />
+      </Stack.Navigator>
+  )
+
 }
 
 /**
@@ -64,9 +85,24 @@ function BottomTabNavigator() {
       }}>
       <BottomTab.Screen
         name="TabOne"
-        component={TabOneScreen}
+        component={Menu}
         options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
+          title: 'Menu',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        })}
+      />
+      <BottomTab.Screen
+        name="TabTwo"
+        component={TabTwoScreen}
+        options={{
+          title: 'Disponibilités',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      /><BottomTab.Screen
+        name="TabThree"
+        component={TabThreeScreen}
+        options={({ navigation }: RootTabScreenProps<'TabThree'>) => ({
+          title: 'Commandes',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Pressable
@@ -75,7 +111,7 @@ function BottomTabNavigator() {
                 opacity: pressed ? 0.5 : 1,
               })}>
               <FontAwesome
-                name="info-circle"
+                name="plus-circle"
                 size={25}
                 color={Colors[colorScheme].text}
                 style={{ marginRight: 15 }}
@@ -85,10 +121,18 @@ function BottomTabNavigator() {
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
+        name="TabFour"
+        component={TabFourScreen}
         options={{
-          title: 'Tab Two',
+          title: 'Notifications',
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="TabFive"
+        component={TabFiveScreen}
+        options={{
+          title: 'Compte',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
